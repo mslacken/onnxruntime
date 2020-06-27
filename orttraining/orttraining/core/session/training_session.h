@@ -298,12 +298,7 @@ class TrainingSession : public InferenceSession {
   /** Override Run function in InferenceSession to inject some training-specific logics **/
   using InferenceSession::Run; // For overload resolution.
 
-  common::Status Run(IOBinding& io_binding) override;
-
   common::Status Run(const RunOptions& run_options, IOBinding& io_binding) override;
-
-  common::Status Run(const NameMLValMap& feeds, const std::vector<std::string>& output_names,
-                     std::vector<OrtValue>* p_fetches) override;
 
  private:
   /** Configures the loss function.
