@@ -464,7 +464,9 @@ set(onnx_test_runner_common_srcs
         ${onnx_test_runner_src_dir}/pb_helper.cc
         ${onnx_test_runner_src_dir}/mem_buffer.h
         ${onnx_test_runner_src_dir}/tensorprotoutils.h
-        ${onnx_test_runner_src_dir}/tensorprotoutils.cc)
+        ${onnx_test_runner_src_dir}/tensorprotoutils.cc
+        ${onnx_test_runner_src_dir}/onnx_model_info.h
+        ${onnx_test_runner_src_dir}/onnx_model_info.cc)
 
 
 add_library(onnx_test_runner_common ${onnx_test_runner_common_srcs})

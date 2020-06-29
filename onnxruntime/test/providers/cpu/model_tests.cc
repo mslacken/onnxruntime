@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#include "core/providers/cpu/cpu_execution_provider.h"
 #include "core/session/onnxruntime_c_api.h"
 #include "core/session/onnxruntime_cxx_api.h"
 #include "core/session/inference_session.h"
@@ -10,7 +9,6 @@
 #include <iterator>
 #include "gtest/gtest.h"
 #include <core/platform/path_lib.h>
-#include <test/onnx/OrtValueList.h>
 #include "test/onnx/TestCase.h"
 #include "test/onnx/runner.h"
 #include "test/compare_ortvalue.h"
@@ -621,7 +619,7 @@ TEST_P(ModelTest, Run) {
     static const ORTCHAR_T* dml_disabled_tests[] = {ORT_TSTR("mlperf_ssd_resnet34_1200"),
                                                     ORT_TSTR("mlperf_ssd_mobilenet_300"), ORT_TSTR("mask_rcnn"),
                                                     ORT_TSTR("faster_rcnn"), ORT_TSTR("tf_pnasnet_large"),
-                                                    ORT_TSTR("zfnet512")};
+                                                    ORT_TSTR("zfnet512"),ORT_TSTR("keras2coreml_Dense_ImageNet")        };
     static const ORTCHAR_T* dnnl_disabled_tests[] = {ORT_TSTR("test_densenet121"), ORT_TSTR("test_resnet18v2"),
                                                      ORT_TSTR("test_resnet34v2"), ORT_TSTR("test_resnet50v2"),
                                                      ORT_TSTR("test_resnet101v2"),
@@ -726,10 +724,10 @@ ORT_TSTR("convtranspose_3d")};
           if (test_case_name.compare(0, 5, ORT_TSTR("test_")) == 0) test_case_name = test_case_name.substr(5);
           if (all_disabled_tests.find(test_case_name) != all_disabled_tests.end()) return true;
 
+#ifdef DISABLE_ML_OPS
           auto starts_with = [](const std::basic_string<PATH_CHAR_TYPE>& find_in, const std::basic_string<PATH_CHAR_TYPE>& find_what) {
             return find_in.compare(0, find_what.size(), find_what) == 0;
           };
-#ifdef DISABLE_ML_OPS
           if (starts_with(test_case_name, ORT_TSTR("XGBoost_")) ||
               starts_with(test_case_name, ORT_TSTR("coreml_")) ||
               starts_with(test_case_name, ORT_TSTR("scikit_")) ||
